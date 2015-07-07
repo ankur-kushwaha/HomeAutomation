@@ -1,0 +1,1 @@
+angular.module("common",['common.service','common.directive']);
