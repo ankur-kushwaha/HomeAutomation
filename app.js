@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 // Database setup
-var db = require('mongoskin').db('mongodb://127.0.0.1:27017/home'); 
+var db = require("./db/db.js"); 
 
 var rooms = require('./routes/rooms/rooms');
 var switches = require('./routes/switches/switches');
@@ -24,12 +24,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-// Make our db accessible to our router
-app.use(function(req,res,next){
-    req.db = db;
-    next();
-});
 
 app.use('/rooms', rooms);
 app.use('/switches', switches);

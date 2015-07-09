@@ -41,7 +41,7 @@ $scope.switches=[];
 
             modalInstance.result.then(function(modal) {
                 homeService.addRoom(modal.roomName).then(function(res) {
-                    $scope.rooms.push(res.data[0]);
+                    $scope.rooms.push(res.data);
                 })
             }, function() {
 
