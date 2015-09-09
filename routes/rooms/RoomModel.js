@@ -4,12 +4,14 @@ var Schema = mongoose.Schema;
 
 // create a schema
 var roomSchema = new Schema({
-    name:String,
-    "switch": [{
-        name: String
+    name: String,
+    "switches": [{
+        name: String,
+        gpio: String,
+        state: String
     }],
-    created_at: Date,
-    updated_at: Date
+    createdAt: Date,
+    updatedAt: Date
 });
 
 // the schema is useless so far

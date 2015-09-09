@@ -1,45 +1,55 @@
 var express = require('express');
-var RoomModel = require("./RoomModel");
 var router = express.Router();
 
-/* GET home page. */
+var jsonfile=require('jsonfile');
+
+var piSwitch=require('./piSwitch');
+var file="data/rooms.json";
+
+//piSwitch.setup();
+
+//to get all rooms
 router.get('/', function(req, res, next) {
     console.log("inside get rooms")
-
-    RoomModel.find(function(err, Rooms) {
-        if (err) return console.error(err);
-        res.json({
-            "rooms": Rooms
+    res.json({
+            "rooms": jsonfile.readFileSync(file).rooms
         });
-    })
-
-    /*    var db = req.db;
-        db.collection('room').find().toArray(function(err, result) {
-            if (err) throw err;
-            res.json({
-                "rooms": result
-            });
-        });*/
 });
 
 
+//for adding new room
 router.post('/', function(req, res, next) {
     console.log("inside post rooms")
-
-    var room = new RoomModel(req.body);
-
-    room.save(function(err, room) {
-        if (err) return console.error(err);
-        res.json(room);
+    jsonfile.readFile(file, function(err, obj) {
+    var room=req.body;
+    room.id=obj.rooms.length;
+    room.switches=[];
+        obj.rooms.push(room);
+        console.dir(obj);
+        jsonfile.writeFile(file, obj, {spaces: 2}, function(err) {
+            console.error(err)
+            res.json(room);
+        })
     })
-
-    /*var db = req.db;
-    db.collection('room').insert(req.body, function(err, result) {
-        if (err) throw err;
-        if (result) console.log('Added!');
-        res.json(result);
-    });*/
-
 });
+
+//for adding new switch
+router.post('/switches',function(req,res){
+    console.log("Adding new Switch");
+    var roomId=req.body.roomId;
+    var _switch = req.body.switch;
+
+     jsonfile.readFile(file, function(err, obj) {
+        var gpio=obj.gpios.pop();
+        _switch.gpio=gpio,
+        _switch.id=obj.rooms[roomId].switches.length;
+
+        obj.rooms[roomId].switches.push(_switch);
+        jsonfile.writeFile(file, obj, {spaces: 2}, function(err) {
+            console.error(err)
+            res.json(_switch);
+        });
+     });
+})
 
 module.exports = router;

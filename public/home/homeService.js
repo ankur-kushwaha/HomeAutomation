@@ -9,16 +9,27 @@ angular.module('myApp.home.service', [])
 
     var switches = [];
     var switchCounter = 1;
-    this.getRooms = function() {
-        return $http.get("rooms");
+    this.getState = function() {
+        return $http.get("state");
+    }
+    this.setState=function(state){
+    	return $http.post("state",state);
     }
 
-    this.addSwitch=function(roomId,switchName){
-        console.log(roomId+" "+switchName);
-        return $http.post("switches",{roomId:roomId,switchName:switchName});
+    this.addSwitch=function(_switch){
+        console.log(_switch);
+        return $http.post("rooms/switches",_switch);
     }
 
-    this.addRoom = function(roomName) {
-       return $http.post("rooms",{"name":roomName});
+    this.addRoom = function(room) {
+       return $http.post("rooms",room);
+    }
+
+    this.delSwitch=function(switchDetails){
+        return $http.delete("rooms/switches",switchDetails);
+    }
+
+    this.toggleSwitch=function(switchId,state){
+    	$http.get('switches/'+switchId+'/'+state);
     }
 }]);

@@ -1,32 +1,37 @@
-<div class="row">
+    <div class="row">
     <div class="col-sm-4">
         <div class="panel panel-success">
             <div class="panel-heading">
                 <h3 class="panel-title">Rooms<a href="" ng-click="openNewRoomModal()" class="small pull-right">Add New</a></h3>
             </div>
             <div class="list-group">
-                <a class="list-group-item" href="" ng-class="{'active' : roomSelected==room}" ng-click="getSwitches(room)" ng-repeat="room in rooms">{{room.name}}</a>
+                <a class="list-group-item" href="" ng-class="{'active' : roomSelected==room.id}" ng-click="getSwitches($index)" ng-repeat="room in rooms">{{room.name}}</a>
             </div>
         </div>
     </div>
     <div class="col-sm-8">
         <div class="panel panel-success">
             <div class="panel-heading">
-                <h3 class="panel-title">Switches<a ng-show="roomSelected" href="" ng-click="openNewSwitchModal()" class="small pull-right">Add New</a></h3>
+                <h3 class="panel-title">Switches<a ng-hide="roomSelected==null" href="" ng-click="openNewSwitchModal()" class="small pull-right">Add New</a></h3>
             </div>
             <ul class="list-group">
-                <li class="list-group-item" href="" ng-repeat="switch in switches | filter:{roomId:roomSelected._id}">
+                <li class="list-group-item" href="" ng-repeat="switch in rooms[roomSelected].switches">
                     <div class="row">
-                        <div class="col-sm-9">{{switch.name}}</div>
+                        <div class="col-sm-9">{{switch.name}}
+                          <br><small>Gpio:{{switch.gpio}}</small>
+                        </div>
                         <div class="col-sm-3">
                             <div class="btn-group">
-                                <label class="btn btn-primary" ng-model="switch.state" btn-radio="1">On</label>
-                                <label class="btn btn-primary" ng-model="switch.state" btn-radio="0">Off</label>
+                                {{switch.state}}
+                                <label class="btn btn-primary" ng-model="switch.state" btn-radio="1" ng-click="toggleSwitch($index,1)">On</label>
+                                <label class="btn btn-primary" ng-model="switch.state" btn-radio="0" ng-click="toggleSwitch($index,0)">Off</label>
                             </div>
+                            <small><a href="" ng-click=delSwitch(switch)>Del</a></small>
                         </div>
                     </div>
                 </li>
             </ul>
+            <a href="" ng-click="openGpioDiagram()" class="pull-right">Open GPIO Diagram</a>
         </div>
     </div>
 </div>

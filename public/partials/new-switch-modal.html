@@ -16,6 +16,15 @@
                     <input type="text" class="form-control" placeholder="Switch Name" ng-model="modal.switchName">
                 </div>
             </div>  
+            <div class="form-group">
+                <label for="inputEmail" class="col-lg-3 control-label">GPIO</label>
+                <div class="col-lg-9">
+                	<select ng-model=modal.gpio>
+                		<option ng-repeat="gpio in gpios">{{gpio}}</option>
+                	</select>
+                    
+                </div>
+            </div>  
         </fieldset>
     </form>
 </div>
