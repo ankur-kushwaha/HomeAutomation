@@ -107,14 +107,19 @@ angular.module('myApp.home', [ 'ngRoute', 'myApp.home.service' ])
 		});
 	}
 
-	$scope.delSwitch = function(_switch) {
-		var switchDetails = {
-			roomId : $scope.roomSelected,
-			switchId : _switch.id
-		}
-		homeService.delSwitch(switchDetails).then(function(res) {
-
-			console.log(res.data);
+	$scope.delSwitch = function(roomId,switchIndex) {
+		console.log("deleting switch "+switchIndex+" from room "+roomId);
+		state.gpios.push(Number(state.rooms[roomId].switches[switchIndex].gpio));
+		state.rooms[roomId].switches.splice(switchIndex,1);
+		updateState();
+	}
+	
+	function updateState(){
+		homeService.setState(state).then(function(res) {
+			$scope.rooms = state.rooms;
+			$scope.gpios = state.gpios;
+		}, function(res) {
+			console.log(res);
 		})
 	}
 
