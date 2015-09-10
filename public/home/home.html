@@ -22,9 +22,9 @@
                         </div>
                         <div class="col-sm-3">
                             <div class="btn-group">
-                                {{switch.state}}
-                                <label class="btn btn-primary" ng-model="switch.state" btn-radio="1" ng-click="toggleSwitch($index,1)">On</label>
-                                <label class="btn btn-primary" ng-model="switch.state" btn-radio="0" ng-click="toggleSwitch($index,0)">Off</label>
+                
+                                <label class="btn btn-primary" ng-class="{active:switch.state}" ng-model="switch.state" btn-radio="1" ng-click="toggleSwitch(switch,1)">On</label>
+                                <label class="btn btn-primary" ng-class="{active:!switch.state}" ng-model="switch.state" btn-radio="0" ng-click="toggleSwitch(switch,0)">Off</label>
                             </div>
                             <small><a href="" ng-click=delSwitch(roomSelected,$index)>Del</a></small>
                         </div>

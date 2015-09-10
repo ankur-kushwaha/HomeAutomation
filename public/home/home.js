@@ -11,7 +11,11 @@ angular.module('myApp.home', [ 'ngRoute', 'myApp.home.service' ])
 
 .controller('HomeCtrl', [ '$scope', '$routeParams', 'homeService', '$modal', function($scope, $routeParams, homeService, $modal) {
 
-	$scope.toggleSwitch = homeService.toggleSwitch;
+	$scope.toggleSwitch =function(_switch,state){
+		homeService.toggleSwitch(_switch.gpio,state).then(function(res){
+			_switch.state=res.data.state;
+		});	
+	} 
 
 	var state = {};
 

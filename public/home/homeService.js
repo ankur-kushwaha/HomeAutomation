@@ -16,7 +16,7 @@ angular.module('myApp.home.service', [])
     	return $http.post("state",state);
     }
 
-    this.toggleSwitch=function(switchId,state){
-    	$http.get('switches/'+switchId+'/'+state);
+    this.toggleSwitch=function(gpio,state){
+    	return $http.post('pi/'+gpio+'/'+state);
     }
 }]);
