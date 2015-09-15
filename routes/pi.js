@@ -7,17 +7,16 @@ var jsonfile=require('jsonfile');
 
 var Gpios={};
 
-jsonfile.readFile(file,function(err,obj){
-	for(var i in obj.allGpios){
-		Gpios[obj.allGpios[i]] = new Gpio(obj.allGpios[i], 'out')
-	}
-});
-
 
 /* GET users listing. */
 router.post('/:gpio/:state', function(req, res, next) {
 	var gpio=req.params.gpio;
-	var state=req.params.state;	
+	var state=req.params.state;
+	if(Gpios[gpio]==null){
+		console.log("Registering gpio "+gpio);
+		Gpios[gpio] = new Gpio(gpio, 'out');
+	}	
+	console.log("writing gpio %s with state %s",gpio,state);
 	Gpios[gpio].writeSync(Number(state));
 	var obj={
 		gpio:gpio,
@@ -27,11 +26,22 @@ router.post('/:gpio/:state', function(req, res, next) {
 });
 
 router.get('/:gpio', function(req, res, next) {
+
 	var gpio=req.params.gpio;
+	
 	//var state=req.body.state;
 	//Gpios[gpio].writeSync(state);
-	console.log("gpio "+ gpio+" : "+Gpios[gpio].readSync())
-	res.json(Gpios[gpio]);
+	if(Gpios[gpio]==null){
+		console.log("Registering gpio "+gpio);
+		Gpios[gpio] = new Gpio(gpio, 'out');
+	}
+	var state=Gpios[gpio].readSync();
+	console.log("Reading gpio "+ gpio+"; state : "+state)
+	var obj={
+		gpio:gpio,
+		state:state
+	}
+	res.json(obj);
 });
 
 

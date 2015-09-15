@@ -24,6 +24,18 @@ angular.module('myApp.home', [ 'ngRoute', 'myApp.home.service' ])
 		$scope.rooms = res.data.rooms;
 		$scope.gpios = res.data.gpios;
 		$scope.roomSelected = 0;
+
+		for(var i in $scope.rooms){
+			for(var j in $scope.rooms[i].switches){
+				(function(i,j){
+				homeService.getSwitchState($scope.rooms[i].switches[j].gpio).then(function(res){
+					$scope.rooms[i].switches[j].state=res.data.state;
+					console.log("%s %s %s %s",i,j,res.data.gpio,res.data.state);
+				})
+			})(i,j)
+			}			
+		}
+
 	});
 
 	$scope.getSwitches = function(index) {

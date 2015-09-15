@@ -12,6 +12,7 @@ angular.module('myApp.home.service', [])
     this.getState = function() {
         return $http.get("state");
     }
+
     this.setState=function(state){
     	return $http.post("state",state);
     }
@@ -19,4 +20,10 @@ angular.module('myApp.home.service', [])
     this.toggleSwitch=function(gpio,state){
     	return $http.post('pi/'+gpio+'/'+state);
     }
+
+    this.getSwitchState=function(gpio){
+        return $http.get("pi/"+gpio);
+    }
+
+
 }]);

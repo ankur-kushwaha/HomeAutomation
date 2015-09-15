@@ -14,7 +14,7 @@ router.post('/', function(req, res, next) {
 	console.log("updating state")
 	var state=req.body;
      jsonfile.writeFile(file, state, {spaces: 2}, function(err) {
-            console.error(err)
+            if(err)console.error(err);
             res.json(state);
      })
 });
