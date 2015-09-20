@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var jsonfile=require('jsonfile');
-var file="data/rooms.json";
+var file=__dirname+"/../data/rooms.json";
 
 //get states
 router.get('/', function(req, res, next) {
